@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>JSX Runner — عروض تفاعلية</title>
+    <meta name="description" content="أداة لتشغيل وعرض ملفات JSX التفاعلية كعروض احترافية مباشرة في المتصفح. ادعم Tailwind و Framer Motion و Lucide بدون إعداد." />
+    <meta name="author" content="JSX Runner" />
+
+    <!-- Theme color (browser chrome on mobile, PWA splash) -->
+    <meta name="theme-color" content="#2563eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Favicon + PWA -->
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="JSX Runner" />
+
+    <!-- Open Graph / Twitter (link previews on WhatsApp, X, LinkedIn) -->
+    <meta property="og:title" content="JSX Runner — عروض تفاعلية" />
+    <meta property="og:description" content="شغّل ملفات JSX التفاعلية كعروض احترافية مباشرة في المتصفح." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./favicon.svg" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="JSX Runner" />
+    <meta name="twitter:description" content="عروض تفاعلية بـ JSX، تعمل مباشرة في المتصفح." />
+
+    <!-- Inter (Latin) + IBM Plex Sans Arabic for the UI; JetBrains Mono for the editor. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!--
+      Babel standalone is loaded from cdnjs, NOT bundled.
+      It's ~3MB — keeping it out of the bundle keeps our build small.
+      Classic <script> in <head> blocks parsing, so by the time our
+      module script runs, window.Babel is guaranteed to exist.
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+    <!-- Apply saved/system theme before paint to avoid a flash of wrong theme. -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('jsx-runner:theme');
+          var theme = (saved === 'light' || saved === 'dark')
+            ? saved
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) { /* ignore */ }
+      })();
+    </script>
+
+    <!-- Boot screen — visible until React mounts and replaces #root.
+         Uses the same theme tokens as the app so the transition is seamless. -->
+    <style>
+      :root           { --boot-bg: #eef1f6; --boot-fg: #0f172a; --boot-muted: #64748b; --boot-accent: #2563eb; }
+      [data-theme="dark"] { --boot-bg: #0b1120; --boot-fg: #e6ebf5; --boot-muted: #94a3b8; --boot-accent: #5b8def; }
+      html, body, #root { height: 100%; margin: 0; }
+      body { background: var(--boot-bg); color: var(--boot-fg);
+             font-family: 'Inter','IBM Plex Sans Arabic',-apple-system,system-ui,sans-serif; }
+      .boot {
+        position: fixed; inset: 0;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 18px;
+        background: var(--boot-bg);
+        animation: bootIn 0.25s ease-out;
+      }
+      .boot-logo {
+        width: 56px; height: 56px; border-radius: 14px;
+        background: linear-gradient(135deg, #2563eb 0%, #6366f1 55%, #9333ea 100%);
+        display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 10px 28px rgba(37, 99, 235, 0.32);
+        animation: bootPulse 2s ease-in-out infinite;
+      }
+      .boot-logo svg { display: block; }
+      .boot-text {
+        font-size: 13px; font-weight: 500; color: var(--boot-muted);
+        letter-spacing: 0.2px;
+      }
+      .boot-bar {
+        width: 120px; height: 3px; border-radius: 99px;
+        background: rgba(100, 116, 139, 0.18); overflow: hidden;
+      }
+      .boot-bar::after {
+        content: ''; display: block; height: 100%; width: 40%;
+        background: var(--boot-accent); border-radius: 99px;
+        animation: bootSlide 1.1s ease-in-out infinite;
+      }
+      @keyframes bootIn   { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes bootPulse{ 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+      @keyframes bootSlide{ 0% { transform: translateX(-110%); } 100% { transform: translateX(310%); } }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot" role="status" aria-label="Loading">
+        <div class="boot-logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <g stroke="white" stroke-width="1.6" stroke-linecap="round" fill="none" opacity="0.95">
+              <ellipse cx="16" cy="16" rx="9.5" ry="3.6"/>
+              <ellipse cx="16" cy="16" rx="9.5" ry="3.6" transform="rotate(60 16 16)"/>
+              <ellipse cx="16" cy="16" rx="9.5" ry="3.6" transform="rotate(-60 16 16)"/>
+            </g>
+            <circle cx="16" cy="16" r="2.2" fill="white"/>
+          </svg>
+        </div>
+        <div class="boot-text">جارٍ التحميل…</div>
+        <div class="boot-bar"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

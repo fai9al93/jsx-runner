@@ -1,0 +1,15 @@
+// vite.config.js
+import { defineConfig } from "file:///sessions/eager-ecstatic-shannon/mnt/jsx-runner/node_modules/vite/dist/node/index.js";
+import react from "file:///sessions/eager-ecstatic-shannon/mnt/jsx-runner/node_modules/@vitejs/plugin-react/dist/index.js";
+var vite_config_default = defineConfig({
+  plugins: [react()],
+  // Use relative paths in the built bundle so you can just open dist/index.html
+  // straight from disk (no static server needed for the parent app —
+  // the iframe still pulls libs from CDNs).
+  base: "./",
+  server: { port: 5173 }
+});
+export {
+  vite_config_default as default
+};
+//# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcuanMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvc2Vzc2lvbnMvZWFnZXItZWNzdGF0aWMtc2hhbm5vbi9tbnQvanN4LXJ1bm5lclwiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9maWxlbmFtZSA9IFwiL3Nlc3Npb25zL2VhZ2VyLWVjc3RhdGljLXNoYW5ub24vbW50L2pzeC1ydW5uZXIvdml0ZS5jb25maWcuanNcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfaW1wb3J0X21ldGFfdXJsID0gXCJmaWxlOi8vL3Nlc3Npb25zL2VhZ2VyLWVjc3RhdGljLXNoYW5ub24vbW50L2pzeC1ydW5uZXIvdml0ZS5jb25maWcuanNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tICd2aXRlJztcbmltcG9ydCByZWFjdCBmcm9tICdAdml0ZWpzL3BsdWdpbi1yZWFjdCc7XG5cbmV4cG9ydCBkZWZhdWx0IGRlZmluZUNvbmZpZyh7XG4gIHBsdWdpbnM6IFtyZWFjdCgpXSxcbiAgLy8gVXNlIHJlbGF0aXZlIHBhdGhzIGluIHRoZSBidWlsdCBidW5kbGUgc28geW91IGNhbiBqdXN0IG9wZW4gZGlzdC9pbmRleC5odG1sXG4gIC8vIHN0cmFpZ2h0IGZyb20gZGlzayAobm8gc3RhdGljIHNlcnZlciBuZWVkZWQgZm9yIHRoZSBwYXJlbnQgYXBwIFx1MjAxNFxuICAvLyB0aGUgaWZyYW1lIHN0aWxsIHB1bGxzIGxpYnMgZnJvbSBDRE5zKS5cbiAgYmFzZTogJy4vJyxcbiAgc2VydmVyOiB7IHBvcnQ6IDUxNzMgfSxcbn0pO1xuIl0sCiAgIm1hcHBpbmdzIjogIjtBQUErVCxTQUFTLG9CQUFvQjtBQUM1VixPQUFPLFdBQVc7QUFFbEIsSUFBTyxzQkFBUSxhQUFhO0FBQUEsRUFDMUIsU0FBUyxDQUFDLE1BQU0sQ0FBQztBQUFBO0FBQUE7QUFBQTtBQUFBLEVBSWpCLE1BQU07QUFBQSxFQUNOLFFBQVEsRUFBRSxNQUFNLEtBQUs7QUFDdkIsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K
