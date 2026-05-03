@@ -26,6 +26,7 @@ import {
 import { defaultExample } from './lib/example.js';
 
 const SIDEBAR_KEY = 'jsx-runner:sidebar-collapsed';
+const EDITOR_HIDDEN_KEY = 'jsx-runner:editor-hidden';
 
 export default function App() {
   // Library / current entry
@@ -45,6 +46,9 @@ export default function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     try { return localStorage.getItem(SIDEBAR_KEY) === '1'; } catch { return false; }
   });
+  const [editorHidden, setEditorHidden] = useState(() => {
+    try { return localStorage.getItem(EDITOR_HIDDEN_KEY) === '1'; } catch { return false; }
+  });
 
   // Save status
   const [saveStatus, setSaveStatus] = useState('saved');
@@ -62,6 +66,10 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem(SIDEBAR_KEY, sidebarCollapsed ? '1' : '0'); } catch {}
   }, [sidebarCollapsed]);
+
+  useEffect(() => {
+    try { localStorage.setItem(EDITOR_HIDDEN_KEY, editorHidden ? '1' : '0'); } catch {}
+  }, [editorHidden]);
 
   const refreshLibrary = useCallback(async () => {
     const lib = await getLibrary();
@@ -334,6 +342,7 @@ export default function App() {
       else if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); handleDownload(); }
       else if (!inField && (e.key === 'f' || e.key === 'F')) { e.preventDefault(); togglePresent(); }
       else if (!inField && (e.key === 'b' || e.key === 'B')) { e.preventDefault(); setSidebarCollapsed((v) => !v); }
+      else if (!inField && (e.key === 'e' || e.key === 'E')) { e.preventDefault(); setEditorHidden((v) => !v); }
       else if (e.key === 'Escape') {
         if (showHistory)     { e.preventDefault(); setShowHistory(false); }
         else if (presenting) {
@@ -405,11 +414,13 @@ export default function App() {
             onOpenInWindow={openInWindow}
             theme={theme}
             onToggleTheme={handleToggleTheme}
+            editorHidden={editorHidden}
+            onToggleEditor={() => setEditorHidden((v) => !v)}
           />
         )}
-        <div className="workspace">
+        <div className={`workspace ${editorHidden && !presenting ? 'workspace-solo' : ''}`}>
           <Preview srcdoc={previewSrc} presenting={presenting} />
-          {!presenting && (
+          {!presenting && !editorHidden && (
             <Editor
               value={code}
               onChange={setCode}

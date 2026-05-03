@@ -139,6 +139,10 @@ button, input, textarea { font-family: inherit; }
 @media (min-width: 900px) {
   .workspace { grid-template-rows: none; grid-template-columns: 1fr 1fr; }
 }
+.workspace.workspace-solo {
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+}
 
 /* ─── Sidebar (floating card) ─── */
 .sidebar {

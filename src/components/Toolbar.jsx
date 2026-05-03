@@ -8,6 +8,7 @@ import {
   Sun, Moon,
   FolderOpen, Download,
   Monitor, Presentation, Play,
+  Code2, CodeXml,
 } from 'lucide-react';
 import SaveStatus from './SaveStatus.jsx';
 import Kbd from './Kbd.jsx';
@@ -25,6 +26,8 @@ export default function Toolbar({
   onOpenInWindow,
   theme,
   onToggleTheme,
+  editorHidden,
+  onToggleEditor,
 }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -77,6 +80,15 @@ export default function Toolbar({
         </label>
         <button className="btn btn-ghost" onClick={onDownload} title="تنزيل كـ .jsx">
           <Download size={16} />
+        </button>
+        <button
+          className="btn btn-ghost"
+          onClick={onToggleEditor}
+          title={editorHidden ? 'إظهار المحرّر' : 'إخفاء المحرّر'}
+          aria-label={editorHidden ? 'show editor' : 'hide editor'}
+          aria-pressed={!editorHidden}
+        >
+          {editorHidden ? <CodeXml size={16} /> : <Code2 size={16} />}
         </button>
         <button className="btn btn-ghost" onClick={onOpenInWindow} title="فتح المعاينة في نافذة منفصلة">
           <Monitor size={16} />
