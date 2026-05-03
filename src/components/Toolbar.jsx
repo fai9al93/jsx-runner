@@ -6,12 +6,13 @@
  */
 import {
   Sun, Moon,
-  FolderOpen, Download,
+  FolderOpen,
   Monitor, Presentation, Play,
   Code2, CodeXml,
 } from 'lucide-react';
 import SaveStatus from './SaveStatus.jsx';
 import Kbd from './Kbd.jsx';
+import ExportMenu from './ExportMenu.jsx';
 
 export default function Toolbar({
   fileName,
@@ -21,6 +22,8 @@ export default function Toolbar({
   onOpenHistory,
   onFile,
   onDownload,
+  onExportPDF,
+  onExportPPTX,
   onRun,
   onPresent,
   onOpenInWindow,
@@ -78,9 +81,11 @@ export default function Toolbar({
             onChange={handleFileChange}
           />
         </label>
-        <button className="btn btn-ghost" onClick={onDownload} title="تنزيل كـ .jsx">
-          <Download size={16} />
-        </button>
+        <ExportMenu
+          onExportJSX={onDownload}
+          onExportPDF={onExportPDF}
+          onExportPPTX={onExportPPTX}
+        />
         <button
           className="btn btn-ghost"
           onClick={onToggleEditor}

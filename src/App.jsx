@@ -24,6 +24,7 @@ import {
   importLibrary,
 } from './lib/storage.js';
 import { defaultExample } from './lib/example.js';
+import { exportPDF, exportPPTX } from './lib/export.js';
 
 const SIDEBAR_KEY = 'jsx-runner:sidebar-collapsed';
 const EDITOR_HIDDEN_KEY = 'jsx-runner:editor-hidden';
@@ -171,6 +172,16 @@ export default function App() {
     a.href = url; a.download = `${safeName}.jsx`; a.click();
     URL.revokeObjectURL(url);
   }, [code, name]);
+
+  const handleExportPDF = useCallback(async () => {
+    const src = previewSrc || transform(code);
+    await exportPDF(src, name);
+  }, [previewSrc, code, name]);
+
+  const handleExportPPTX = useCallback(async () => {
+    const src = previewSrc || transform(code);
+    await exportPPTX(src, name);
+  }, [previewSrc, code, name]);
 
   const togglePresent = useCallback(() => {
     setPresenting((p) => {
@@ -409,6 +420,8 @@ export default function App() {
             onOpenHistory={() => setShowHistory(true)}
             onFile={handleFileInput}
             onDownload={handleDownload}
+            onExportPDF={handleExportPDF}
+            onExportPPTX={handleExportPPTX}
             onRun={run}
             onPresent={togglePresent}
             onOpenInWindow={openInWindow}
